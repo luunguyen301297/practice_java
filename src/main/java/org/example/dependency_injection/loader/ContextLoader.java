@@ -55,9 +55,7 @@ public class ContextLoader {
                 .filter(Runner.class::isInstance)
                 .toList();
 
-        if (runners.isEmpty()) {
-            return;
-        }
+        if (runners.isEmpty()) return;
 
         if (runners.size() > 1) {
             throw new RuntimeException("Cannot have more than 1 runner class");
@@ -71,9 +69,8 @@ public class ContextLoader {
                         method -> Arrays.stream(method.getDeclaredAnnotations())
                                 .anyMatch(a -> a.annotationType() == PostConstruct.class))
                 .toList();
-        if (postMethods.isEmpty()) {
-            return;
-        }
+        if (postMethods.isEmpty()) return;
+
         if (postMethods.size() > 1) {
             throw new RuntimeException("Cannot have more than 1 post initiate method");
         }
