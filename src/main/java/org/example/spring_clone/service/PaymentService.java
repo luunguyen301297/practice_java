@@ -1,7 +1,7 @@
-package org.example.dependency_injection.service;
+package org.example.spring_clone.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.dependency_injection.annotation.Component;
+import org.example.spring_clone.annotation.Component;
 
 @Slf4j
 @Component

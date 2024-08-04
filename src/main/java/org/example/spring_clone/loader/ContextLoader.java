@@ -1,9 +1,9 @@
-package org.example.dependency_injection.loader;
+package org.example.spring_clone.loader;
 
 import lombok.val;
-import org.example.dependency_injection.annotation.Autowire;
-import org.example.dependency_injection.annotation.Component;
-import org.example.dependency_injection.annotation.PostConstruct;
+import org.example.spring_clone.annotation.Autowire;
+import org.example.spring_clone.annotation.Component;
+import org.example.spring_clone.annotation.PostConstruct;
 import org.reflections.Reflections;
 
 import java.util.Arrays;

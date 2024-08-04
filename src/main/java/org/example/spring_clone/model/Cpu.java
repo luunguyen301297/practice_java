@@ -1,11 +1,11 @@
-package org.example.dependency_injection.model;
+package org.example.spring_clone.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Ram {
+public class Cpu {
 
     private String producer;
     private String specification;

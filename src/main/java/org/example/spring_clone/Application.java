@@ -1,13 +1,13 @@
-package org.example.dependency_injection;
+package org.example.spring_clone;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.example.dependency_injection.annotation.Autowire;
-import org.example.dependency_injection.annotation.Component;
-import org.example.dependency_injection.loader.ContextLoader;
-import org.example.dependency_injection.loader.Runner;
-import org.example.dependency_injection.service.OrderService;
-import org.example.dependency_injection.service.RestaurantService;
+import org.example.spring_clone.annotation.Autowire;
+import org.example.spring_clone.annotation.Component;
+import org.example.spring_clone.loader.ContextLoader;
+import org.example.spring_clone.loader.Runner;
+import org.example.spring_clone.service.OrderService;
+import org.example.spring_clone.service.RestaurantService;
 
 @Component
 @Slf4j

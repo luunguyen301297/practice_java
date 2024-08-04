@@ -1,4 +1,4 @@
-package org.example.dependency_injection.model;
+package org.example.spring_clone.model;
 
 import lombok.Data;
 
