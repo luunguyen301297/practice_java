@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PUBLIC)
-public class StreamUtils {
+public class Main {
 
     static int sumOfNumInArrayList(List<Integer> list) {
         return list.stream()
@@ -68,11 +68,11 @@ public class StreamUtils {
                 .toList();
 
         // sorted(Comparator<T> comparator): Sắp xếp các phần tử theo thứ tự được chỉ định bởi comparator
-        List<TestObj> objList = List.of(new TestObj(1, "a"),
-                new TestObj(2, "b"),
-                new TestObj(3, "c"));
-        List<TestObj> sortedList = objList.stream()
-                .sorted(Comparator.comparing(TestObj::getId))
+        List<User> objList = List.of(new User(1, "a"),
+                new User(2, "b"),
+                new User(3, "c"));
+        List<User> sortedList = objList.stream()
+                .sorted(Comparator.comparing(User::getId))
                 .toList();
 
         // reduce with try catch
@@ -82,19 +82,19 @@ public class StreamUtils {
 
         // collect to map
         Map<Integer, String> mapWithValue = objList.stream()
-                .collect(Collectors.toMap(TestObj::getId, TestObj::getName));
-        Map<Integer, TestObj> mapObj = objList.stream()
-                .collect(Collectors.toMap(TestObj::getId, Function.identity()));
+                .collect(Collectors.toMap(User::getId, User::getName));
+        Map<Integer, User> mapObj = objList.stream()
+                .collect(Collectors.toMap(User::getId, Function.identity()));
 
         // find
-        TestObj testObj = objList.stream()
+        User user = objList.stream()
                 .filter(name -> name.getName().equalsIgnoreCase("a"))
                 .findAny()
                 .orElse(null);
 
         Integer id = objList.stream()
                 .filter(name -> name.getName().equalsIgnoreCase("a"))
-                .map(TestObj::getId)
+                .map(User::getId)
                 .findAny()
                 .orElse(null);
     }
