@@ -1,5 +1,6 @@
 package org.example.design_pattern.dependency_injection;
 
+@SuppressWarnings("unused")
 public class SmsService implements MessageService {
 
     @Override

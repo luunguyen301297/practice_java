@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
+@SuppressWarnings({"unused", "SpellCheckingInspection"})
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class Main {
 

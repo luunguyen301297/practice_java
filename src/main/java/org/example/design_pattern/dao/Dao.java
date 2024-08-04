@@ -3,6 +3,7 @@ package org.example.design_pattern.dao;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public interface Dao<T> {
 
     List<T> findAll();

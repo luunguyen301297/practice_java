@@ -1,5 +1,6 @@
 package org.example.design_pattern.factory_method;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class Main {
 
     /**

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public class UserRepositoryImpl implements Dao<UserEntity> {
 
     List<UserEntity> users;

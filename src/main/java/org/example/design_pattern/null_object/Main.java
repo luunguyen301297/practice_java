@@ -1,5 +1,6 @@
 package org.example.design_pattern.null_object;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class Main {
 
     /**
