@@ -10,12 +10,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+
+import static org.example.MessageColor.*;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MessengerClient {
+
     static String SERVER_IP = "127.0.0.1";
     static int SERVER_PORT = 8088;
 
@@ -27,15 +29,12 @@ public class MessengerClient {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // Receive the server's public key
-            String serverPublicKeyString = in.readLine();
-            byte[] serverPublicKeyBytes = Base64.getDecoder().decode(serverPublicKeyString);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PublicKey serverPublicKey = keyFactory.generatePublic(new X509EncodedKeySpec(serverPublicKeyBytes));
+            PublicKey serverPublicKey = CryptographyUtil.receivePublicKey(in);
 
             // Send the client's public key to the server
             out.println(Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
-            hackerLordMessage();
 
+            System.err.println("Type messages to send :");
             String userInput;
             while ((userInput = consoleReader.readLine()) != null) {
                 String encryptedMessage = CryptographyUtil.encryptMessage(userInput, serverPublicKey);
@@ -43,22 +42,12 @@ public class MessengerClient {
 
                 String encryptedResponse = in.readLine();
                 String decryptedResponse = CryptographyUtil.decryptMessage(encryptedResponse, keyPair.getPrivate());
-                System.out.println("Server response: " + decryptedResponse);
+                System.out.println("Server response: " + ANSI_PURPLE.getCode() + decryptedResponse + ANSI_RESET.getCode());
+                System.out.println(ANSI_RED.getCode() + "Type messages to response :" + ANSI_RESET.getCode());
             }
         } catch (IOException | GeneralSecurityException e) {
             log.error(e.getMessage());
         }
     }
 
-    private static void hackerLordMessage() {
-        for (int i = 0; i < 5; i++) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            System.err.println("Hacking NASA: " + i * 20 + "%");
-        }
-        System.err.println("Success hacking NASA, Type messages to send :");
-    }
 }

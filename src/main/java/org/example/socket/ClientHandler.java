@@ -11,8 +11,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.example.MessageColor.*;
 
 @Slf4j
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
@@ -20,33 +22,56 @@ import java.util.Base64;
 class ClientHandler extends Thread {
     Socket socket;
     KeyPair keyPair;
+    AtomicBoolean running = new AtomicBoolean(true);
 
     @Override
     public void run() {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true))
-        {
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+
             // Send the server's public key to the client
             out.println(Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
 
             // Receive the client's public key
-            String clientPublicKeyString = in.readLine();
-            byte[] clientPublicKeyBytes = Base64.getDecoder().decode(clientPublicKeyString);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PublicKey clientPublicKey = keyFactory.generatePublic(new X509EncodedKeySpec(clientPublicKeyBytes));
+            PublicKey clientPublicKey = CryptographyUtil.receivePublicKey(in);
 
+            // Start a new thread to read console input
+            new ConsoleReader(out, clientPublicKey).start();
+
+            // Read messages from the client
             String clientIP = socket.getInetAddress().getHostAddress();
             String message;
-
             while ((message = in.readLine()) != null) {
                 String decryptedMessage = CryptographyUtil.decryptMessage(message, keyPair.getPrivate());
-                System.err.println("Received from client: " + decryptedMessage);
-                String response = clientIP + " : " + decryptedMessage;
-                String encryptedResponse = CryptographyUtil.encryptMessage(response, clientPublicKey);
-                out.println(encryptedResponse);
+                System.out.println("Client (" + clientIP + ") message :"
+                        + ANSI_PURPLE.getCode() + decryptedMessage + ANSI_RESET.getCode());
+                System.out.println(ANSI_RED.getCode() + "Type messages to response :" + ANSI_RESET.getCode());
             }
-        } catch (IOException | GeneralSecurityException e) {
+        } catch (IOException e) {
             log.error(e.getMessage());
+        } finally {
+            running.set(false);
+        }
+    }
+
+    // Inner class to handle console input
+    @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @FieldDefaults(level = AccessLevel.PROTECTED, makeFinal = true)
+    class ConsoleReader extends Thread {
+        PrintWriter out;
+        PublicKey clientPublicKey;
+
+        @Override
+        public void run() {
+            try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
+                String input;
+                while (running.get() && (input = consoleReader.readLine()) != null) {
+                    String encryptedMessage = CryptographyUtil.encryptMessage(input, clientPublicKey);
+                    out.println(encryptedMessage);
+                }
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
         }
     }
 

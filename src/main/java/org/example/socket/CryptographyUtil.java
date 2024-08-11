@@ -5,8 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Slf4j
@@ -35,6 +41,18 @@ public final class CryptographyUtil {
             log.error(e.getMessage());
         }
         return null;
+    }
+
+    public static PublicKey receivePublicKey(BufferedReader bufferedReader) {
+        String publicKeyStr;
+        try {
+            publicKeyStr = bufferedReader.readLine();
+            byte[] serverPublicKeyBytes = Base64.getDecoder().decode(publicKeyStr);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            return keyFactory.generatePublic(new X509EncodedKeySpec(serverPublicKeyBytes));
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

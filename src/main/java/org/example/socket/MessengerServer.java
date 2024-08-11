@@ -16,7 +16,7 @@ public class MessengerServer {
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             KeyPair keyPair = KeyGeneratorUtil.generateKeyPair();
-            System.out.println("Server is listening on port " + PORT);
+            System.err.println("Server is listening on port " + PORT);
 
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -26,4 +26,5 @@ public class MessengerServer {
             log.error(e.getMessage());
         }
     }
+
 }
