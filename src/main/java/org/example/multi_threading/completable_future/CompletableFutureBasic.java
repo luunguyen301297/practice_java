@@ -10,11 +10,7 @@ public class CompletableFutureBasic {
 
         System.out.println("Manually complete");
         completableFuture.complete(computeSomething());
-
         System.out.println("Get the result: " + completableFuture.get());
-
-        //  có thể sử dụng getNow(valueIfAbsent) để lấy kết quả ngay lập tức (không phải chờ tới khi hoàn thành Future)
-        //  nếu có result thì method này sẽ return result, nếu không sẽ return value mặc định (valueIfAbsent)
     }
 
     public static String computeSomething() throws InterruptedException {

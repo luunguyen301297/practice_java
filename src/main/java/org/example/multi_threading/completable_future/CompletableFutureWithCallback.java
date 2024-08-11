@@ -20,9 +20,7 @@ public class CompletableFutureWithCallback {
         }
     }
 
-    // Sử dụng thenApply() để xử lý và chuyển đổi kết quả của một CompletableFuture khi nó hoàn thành
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        // Create a CompletableFuture
         CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
             System.out.println("times");
             return MathUtil.times(NUMBER, 2);

@@ -14,6 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -21,12 +22,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Reflection -->
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
         </dependency>
 
+        <!-- Log4j -->
         <dependency>
             <groupId> org.apache.cassandra</groupId>
             <artifactId>cassandra-all</artifactId>
@@ -43,6 +46,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
     </dependencies>
 
 </project>
