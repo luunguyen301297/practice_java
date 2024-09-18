@@ -2,12 +2,12 @@ package org.example.jdbc;
 
 import lombok.AllArgsConstructor;
 import org.example.jdbc.configuration.DIConfiguration;
-import org.example.jdbc.dao.ModelDAO;
-import org.example.jdbc.model.Model;
+import org.example.jdbc.dao.UserDAO;
+import org.example.jdbc.model.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * @Author: luunguyen301297
@@ -17,23 +17,26 @@ import java.util.List;
 @AllArgsConstructor
 public class App {
 
-    private final ModelDAO modelDAO;
+    private final UserDAO userDAO;
 
-    public List<Model> createModels(){
-        modelDAO.saveOrUpdate(new Model(1, "test1", "test@gmail.com"));
-        modelDAO.saveOrUpdate(new Model(2, "test2", "test@gmail.com"));
-        modelDAO.saveOrUpdate(new Model(3, "test3", "test@gmail.com"));
-        return modelDAO.list();
+    public void createModels(){
+        userDAO.saveOrUpdate(new User(1, "test1", "test@gmail.com", LocalDateTime.now()));
+        userDAO.saveOrUpdate(new User(2, "test2", "test@gmail.com", LocalDateTime.now()));
+        userDAO.saveOrUpdate(new User(3, "test3", "test@gmail.com", LocalDateTime.now()));
+    }
+
+    public void listModel(){
+        System.err.println(userDAO.list(10000, 0 ));
     }
 
     public static void main( String[] args )
     {
+        long start = System.currentTimeMillis();
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(DIConfiguration.class);
         App app = context.getBean(App.class);
-
-        List<Model> models = app.createModels();
-        models.forEach(System.err::println);
+        app.listModel();
+        System.err.println(System.currentTimeMillis() - start + "ms");
     }
 
 }

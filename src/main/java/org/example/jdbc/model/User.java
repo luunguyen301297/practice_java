@@ -2,6 +2,8 @@ package org.example.jdbc.model;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author: luunguyen301297
  * @LastModified: 9/13/2024
@@ -12,10 +14,11 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Model {
+public class User {
 
     int id;
-    String name;
+    String username;
     String email;
+    LocalDateTime createdAt;
 
 }

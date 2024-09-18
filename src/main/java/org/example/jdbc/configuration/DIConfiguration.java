@@ -1,7 +1,7 @@
 package org.example.jdbc.configuration;
 
-import org.example.jdbc.dao.ModelDAO;
-import org.example.jdbc.dao.ModelDAOImpl;
+import org.example.jdbc.dao.UserDAO;
+import org.example.jdbc.dao.UserDAOImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +31,8 @@ public class DIConfiguration {
     }
 
     @Bean
-    public ModelDAO getContactDAO() {
-        return new ModelDAOImpl(getDataSource());
+    public UserDAO getContactDAO() {
+        return new UserDAOImpl(getDataSource());
     }
 
 }
