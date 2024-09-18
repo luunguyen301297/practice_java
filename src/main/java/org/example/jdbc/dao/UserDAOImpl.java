@@ -34,9 +34,9 @@ public class UserDAOImpl implements UserDAO {
                 .addValue("email", user.getEmail());
 
         if (this.existsById(user.getId())) {
-            sql = "UPDATE \"user\" SET username = :name, email = :email WHERE id = :id";
+            sql = "UPDATE users SET username = :name, email = :email WHERE id = :id";
         } else {
-            sql = "INSERT INTO \"user\" (id, username, email) VALUES (:id, :name, :email)";
+            sql = "INSERT INTO users (id, username, email) VALUES (:id, :name, :email)";
         }
 
         jdbcTemplate.update(sql, params);
@@ -44,7 +44,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void delete(int userId) {
-        String sql = "DELETE FROM \"user\" WHERE id = :id";
+        String sql = "DELETE FROM users WHERE id = :id";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", userId);
         jdbcTemplate.update(sql, param);
@@ -52,7 +52,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> get(int userId) {
-        String sql = "SELECT * FROM \"user\" WHERE id = :id";
+        String sql = "SELECT * FROM users WHERE id = :id";
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", userId);
 
@@ -74,7 +74,7 @@ public class UserDAOImpl implements UserDAO {
     public SimplePage<User> list(int pageSize, int pageNumber) {
         int offset = pageSize * pageNumber;
 
-        String sql = "SELECT * FROM \"user\" LIMIT :limit OFFSET :offset";
+        String sql = "SELECT * FROM users LIMIT :limit OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("limit", pageSize)
@@ -87,7 +87,7 @@ public class UserDAOImpl implements UserDAO {
                 .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
                 .build());
 
-        String countSql = "SELECT COUNT(id) FROM \"user\"";
+        String countSql = "SELECT COUNT(id) FROM users";
 
         Integer total = jdbcTemplate.queryForObject(countSql, new MapSqlParameterSource(), Integer.class);
 
@@ -98,7 +98,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean existsById(int id) {
-        String sql = "SELECT 1 FROM \"user\" WHERE id = :id";
+        String sql = "SELECT 1 FROM users WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource("id", id);
         return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> true) != null;
     }
